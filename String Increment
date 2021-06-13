@@ -1,0 +1,96 @@
+import re
+import time
+import colorama
+from colorama import init
+from colorama import Fore, Back, Style
+init()
+
+def month_incr(month):
+
+    month = int(month)
+    month += 1
+    if month < 10:
+        result = '0' + str(month)
+        return result
+    else:
+        return str(month)
+
+
+def year_incr(numb):
+    numb = int(numb)
+    # Convert string to integar, increment, convert integar to string, return value
+    numb += 1
+    numb = str(numb)
+    return numb
+
+# Remeber to convert string to integar first ***
+
+
+def day_incr(d):
+
+    x = re.search('^0', d)
+
+    if x:
+
+        if d == "09":
+
+            numb = d[1:]
+
+            numb = int(numb)
+            numb += 1
+            numb = str(numb)
+            return numb
+
+        else:
+
+            numb = d.split('0')[1]
+    #
+
+            numb = int(numb)
+            numb += 1
+            numb = str(numb)
+            return '0'+numb
+
+        return str(numb)
+    else:
+        d = int(d)
+        d += 1
+        d = str(d)
+        return str(d)
+
+
+# For starting range split values with '&'. second range is the maximum increment
+def total_incr(range1, range2):
+    attempt = 0
+    range = range1
+    max = range2
+    m = range1.split('&')[0]
+    d = range1.split('&')[1]
+    y = range1.split('&')[2]
+
+    print(Fore.GREEN + 'START', range, 'END', max)
+    print(Style.RESET_ALL)
+
+    while True:
+        if d == '31':
+            d = '01'
+            m = month_incr(m)
+        if m == '13':
+            d = '01'
+            m = '01'
+            y = year_incr(y)
+        total_count = m+str(day_incr(d))+y
+        if total_count == max:
+            print(total_count)
+           
+            break
+
+      
+        d = day_incr(d)
+        print(total_count)
+        
+        time.sleep(.1)
+
+
+
+total_incr('01&01&2006', '12312009')
